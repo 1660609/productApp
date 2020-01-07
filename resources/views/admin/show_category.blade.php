@@ -47,17 +47,22 @@ body {font-family: Arial, Helvetica, sans-serif;}
 </style>
 @endsection
 @section('content')
-<div>
-        <h3>Category Manage</h3>
-    </div>
-    <hr width="100%">
-    <button class="btn btn-primary" style="float:right;margin-right:10px" type="submit" id="addCategory">+ Add Category</button>
-    <form action="{{route('category.index')}}">
-      @csrf
-      <div class="form-group">
-        <input type="text" name="nameSrc" placeholder="Name category">
-        <input type="text" name="descriptionSrc" placeholder="Description category">
-        <button class="btn btn-primary">Sreach</button>
+<div class="col-lg-10 float-right mt-3">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+      <li class="breadcrumb-item active" aria-current="page"><a href="{{route('product.index')}}">Category</a></li>
+    </ol>
+  </nav>
+  <h3>Category Manage</h3>
+  <hr width="100%">
+  <button class="btn btn-primary" style="float:right;margin-right:10px" type="submit" id="addCategory">+ Add Category</button>
+  <form action="{{route('category.index')}}">
+    @csrf
+    <div class="form-group">
+      <input type="text" name="nameSrc" placeholder="Name category">
+      <input type="text" name="descriptionSrc" placeholder="Description category">
+      <button class="btn btn-primary">Sreach</button>
     </div>
     </form>
     <div>
@@ -134,53 +139,55 @@ body {font-family: Arial, Helvetica, sans-serif;}
         <button type="submit" class="btn btn-primary btn-submit">Submit</button>
     </div>      
   </div>
-    </form>
-    </div>
-    <script type="text/javascript">
+  </form>
+  </div>
+</div>
+<script type="text/javascript">
 
-    var modal = document.getElementById("myModal");
-    var btn = document.getElementById("addCategory");
-    var span = document.getElementsByClassName("close")[0];
-    btn.onclick = function() {
-      modal.style.display = "block"; 
-    }
-    span.onclick = function() {
-      modal.style.display = "none";
-    }  
-    </script>
+var modal = document.getElementById("myModal");
+var btn = document.getElementById("addCategory");
+var span = document.getElementsByClassName("close")[0];
+btn.onclick = function() {
+  modal.style.display = "block"; 
+}
+span.onclick = function() {
+  modal.style.display = "none";
+}  
+</script>
 
 
-    <script type="text/javascript">
-      $(document).ready(function(){
-        $("#addForm").on('submit',function(e){
-          // alert(description);
-          e.preventDefault();
-          $.ajax({
-          url: "{{route('category.store')}}",
-          type: "POST",
-          dataType:'JSON',
-          contentType: false,
-          cache: false,
-          processData: false,
-          data: new FormData(this),
-          success:  function(data) {
-            if($.isEmptyObject(data.errors))
-            {
-              $('#message').css('display', 'block');
-              $('#message').html(data.success);
-              $('#message').addClass('alert-success');
-            }
-            else{
-              $('#message').css('display', 'block');
-              $('#message').html(data.errors);
-              $('#message').addClass('alert-danger');
-            }},
-        });
-      });
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#addForm").on('submit',function(e){
+      // alert(description);
+      e.preventDefault();
+      $.ajax({
+      url: "{{route('category.store')}}",
+      type: "POST",
+      dataType:'JSON',
+      contentType: false,
+      cache: false,
+      processData: false,
+      data: new FormData(this),
+      success:  function(data) {
+        if($.isEmptyObject(data.errors))
+        {
+          $('#message').css('display', 'block');
+          $('#message').html(data.success);
+          $('#message').addClass('alert-success');
+        }
+        else{
+          $('#message').css('display', 'block');
+          $('#message').html(data.errors);
+          $('#message').addClass('alert-danger');
+        }},
     });
-  
+  });
+});
 
-    </script>
 
+</script>
+</div>
+</div>
 
 @endsection
