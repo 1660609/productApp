@@ -50,6 +50,11 @@
 		z-index: 99999;
 		background-color: white;
 		}
+		.sidenav{
+			-moz-box-shadow: 3px 3px 5px 0px #666;
+			-webkit-box-shadow: 3px 3px 5px 0px #666;
+			box-shadow: 3px 3px 5px 0px #666;
+		}
 		
 </style>
 	<!-- //Meta tag Keywords -->
