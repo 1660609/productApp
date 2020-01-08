@@ -5,10 +5,10 @@
 @yield('css')
 </head>
 <body>
+
 @include('layouts.header_list')
 @yield('sidebar')
 @include('layouts.flash')
 @yield('content')
-</body>
-    @include('layouts.footer')
+@include('layouts.footer')
 </html>                                		                            

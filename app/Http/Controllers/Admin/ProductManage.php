@@ -151,6 +151,7 @@ class ProductManage extends Controller
             'description'=>$request->description,
             'content'=>$request->content,
             'price'=>$request->price,
+            'address'=>$request->address,
         ];
         $product->category_id = $request->category_id;
         $product->update($data);

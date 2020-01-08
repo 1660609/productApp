@@ -99,23 +99,26 @@ body {font-family: Arial, Helvetica, sans-serif;}
                     </td>
                     <td>{{$product->price}}</td>
                     <td>
-                      <form action="{{route('product.edit',$product->id)}}" method="GET">
-                        <button type="submit" class="btn btn-default btn-sm">
-                          <span class="octicon-pencil"></span> Edit
-                        </button>
-                      </form>
-                      <form action="{{route('product.destroy',$product->id)}}" method="POST">
-                        @method('DELETE')
-                        @csrf
-                        <button type="submit" class="btn btn-default btn-sm" onclick="return confirm('You want to delete the product {{$product->name}}')">
-                          <span class="octicon-pencil"></span> Delete
-                        </button> 
-                      </form>
-                      <form action="" method="">
-                        <button type="submit " class="btn btn-success" >
-                          <span class="octicon-pencil"></span> Variant
-                        </button>
-                      </form>
+                      <div class="row" style="width: 70%;text-align: center;">
+                        <form action="{{route('product.edit',$product->id)}}" method="GET" class="col-4">
+                          <button type="submit" class="btn btn-info btn-sm" title="edit product">
+                            <i class="fa fa-cog" aria-hidden="true"></i>
+                          </button>
+                        </form>
+                        <form action="{{route('product.destroy',$product->id)}}" method="POST" class="col-4">
+                          @method('DELETE')
+                          @csrf
+                          <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('You want to delete the product {{$product->name}}')" title="delete product">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                          </button> 
+                        </form>
+                        <form action="{{route('variant.edit',$product->id)}}" method="GET" class="col-4">
+                          @csrf
+                          <button type="submit " class="btn btn-success btn-sm" title="add variant" >
+                            <i class="fa fa-plus-square" aria-hidden="true"></i>
+                          </button>
+                        </form>
+                      </div>
                     </td>
                 </tr>
               @endforeach
@@ -126,6 +129,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
         <script>
             $('#color').colorpicker({});
         </script>
+    <!-- Models create product -->
     <div id="myModal" class="modal">
     <form id="addForm" method="POST" enctype="multipart/form-data">
     @csrf
@@ -318,28 +322,6 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
     })
 
-    </script>
-    <script type="text/javascript">
-    const pickr1 = new Pickr({
-      el: '#color-picker-1',
-      default: "303030",
-      components: {
-        preview: true,
-        opacity: true,
-        hue: true,
-
-        interaction: {
-          hex: true,
-          rgba: true,
-          hsla: true,
-          hsva: true,
-          cmyk: true,
-          input: true,
-          clear: true,
-          save: true
-        }
-      }
-    });
     </script>
     </div>
   </div>

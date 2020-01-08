@@ -4,6 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\VariantRequest;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\File;
+use App\Models\Product;
+use App\Models\Variant;
 
 class VariantController extends Controller
 {
@@ -36,6 +41,42 @@ class VariantController extends Controller
     public function store(Request $request)
     {
         //
+       //dd($request->all());
+       $check = Variant::where('product_id',$request->product_id)
+       ->where('color',$request->color)
+       ->where('size',$request->size)->count();
+       if($check >= 1)
+       {
+           return back()->with('warning','Variation already exists');
+       }
+       $variant = new Variant ; 
+       $variant->product_id = $request->product_id;
+       if($request->color)
+       {
+           $variant->color = $request->color;
+       }
+       if($request->size)
+       {
+           $variant->size = $request->size;
+       }
+       if($request->hasfile('img_color'))
+       {
+           $img = $request->file('img_color');
+           $filename = time().'.'.$img->getClientOriginalExtension();
+           Image::make($img)->resize(100,100)->save(public_path('upload/variant/'.$filename));
+           $img_color = $filename ;
+           $variant->img_color = $img_color;
+       }
+       if($request->price)
+       {
+           $variant->price = $request->price ; 
+       }
+       if($request->quantity)
+       {
+           $variant->quantity = $request->quantity;
+       }
+       $variant->save();
+       return back()->with('success','Add success variant');
     }
 
     /**
@@ -58,6 +99,8 @@ class VariantController extends Controller
     public function edit($id)
     {
         //
+        $product = Product::find($id);
+        return view('admin.variant',compact('product'));
     }
 
     /**

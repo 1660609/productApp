@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Variant extends Model
 {
     //
-    protected $table = 'table_cart';
+    protected $table = 'variant';
     protected $fillable = [
         'id', 'product_id','color','size','quantity','price',
     ];

@@ -18,6 +18,7 @@ class CreateVariant extends Migration
             $table->bigInteger('product_id')->unsigned()->nullable();
             $table->foreign('product_id')->references('id')->on('product');
             $table->string('color')->nullable();
+            $table->string('img_color')->nullable();
             $table->string('size')->nullable();
             $table->integer('quantity')->nullable();
             $table->float('price')->nullable();

@@ -31,6 +31,7 @@ class ProductRequest extends FormRequest
             'content'=>'required',
             'thumbnail'=>'bail|required|image|mimes:jpeg,png,jpg,gif,svg|max:6000',
             'price'=>'bail|required|numeric|min:1000|max:1000000',
+            'address'=>'bail|required|string'
 
         ];
     }

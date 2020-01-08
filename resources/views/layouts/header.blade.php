@@ -55,7 +55,6 @@
 			-webkit-box-shadow: 3px 3px 5px 0px #666;
 			box-shadow: 3px 3px 5px 0px #666;
 		}
-		
 </style>
 	<!-- //Meta tag Keywords -->
 
