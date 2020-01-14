@@ -2,34 +2,77 @@
 @section('sidebar')
   @include('layouts.sidebar')
 @endsection
+@section('css')
+<style>
+  .pro-detail{
+    -moz-box-shadow: 3px 3px 5px 0px #666;
+    -webkit-box-shadow: 3px 3px 5px 0px #666;
+    box-shadow: 3px 3px 5px 0px #666;
+  }
+  .color-circle
+  {
+    height: 38px;
+    width: 25px;
+    display: inline-block;
+  }
+</style>
+@endsection
 @section('content')
 <div class="col-lg-10 float-right mt-3">
 <h3>Edit Product <h3>
 <hr width="100%">
-<form action="{{route('product.update',$product->id)}}" method="POST" style="margin-left: 40px;margin-right: 250px;font-size: 20px;" enctype="multipart/form-data">
+<div class="row">
+ <div class="col-lg-10  pl-4 pr-4 pb-5 pt-2 ml-auto mr-auto pro-detail" >
+  <div class="row">
+    <div class="col-6 float-left">
+      <h5 class="ml-2">Product Detail</h5>
+    </div>
+  </div>
+  <hr width="100%">
+<form action="{{route('product.update',$product->id)}}" method="POST"  enctype="multipart/form-data">
     @method('PUT')
     @csrf
-    <div class="form-group">
-      <label for="exampleFormControlInput1">Name Product</label>
-      <input type="text" class="form-control"  placeholder="Name Category" name="name" value="{!!old('title',isset($product) ? $product->name : null)!!}">
+    <div class="row">
+      <div class="input-group mb-3 col-lg-6">
+        <div class="input-group-prepend" >
+            <span class="input-group-text" style="background-color: navy;color: white;">Name Product</span>
+        </div>
+        <input type="text" class="form-control"  placeholder="Name Category" name="name" value="{!!old('title',isset($product) ? $product->name : null)!!}">
+      </div>
+      <div class="input-group mb-3 col-lg-6">
+        <div class="input-group-prepend">
+            <span class="input-group-text" style="background-color: navy;color: white;"  id="inputGroup-sizing-default">Category</span>
+        </div> 
+        <select class="form-control" name="category_id">
+          <option value="{{$product->category_id}}">{!!old('title',isset($product) ? $product->category_id : null)!!}</option>       
+          @foreach ($categories as $c)
+          <option value="{{$c->id}}">{{$c->id}} - {{$c->name}} </option>
+          @endforeach       
+        </select>
+      </div>
     </div>
-    <select class="form-control" name="category_id">
-       <option value="{{$product->category_id}}">{!!old('title',isset($product) ? $product->category_id : null)!!}</option>       
-      @foreach ($categories as $c)
-        <option value="{{$c->id}}">{{$c->id}} - {{$c->name}} </option>
-      @endforeach
-    </select>
     <div class="form-group">
       <label for="exampleFormControlTextarea1">Description Product</label>
       <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="3">{!!old('title',isset($product) ? $product->description : null)!!}</textarea>
     </div>
     <div class="form-group">
       <label for="exampleFormControlTextarea1">Content Product</label>
-      <textarea class="form-control" id="exampleFormControlTextarea1" name="content" rows="3">{!!old('title',isset($product) ? $product->content : null)!!}</textarea>
+      <textarea class="ckeditor" name="content" rows="3">{!!old('title',isset($product) ? $product->content : null)!!}</textarea>
+      <script>
+        CKEDITOR.replace('content',
+        {
+            filebrowserBrowseUrl : '/editor/ckfinder/ckfinder.html',
+            filebrowserImageBrowseUrl : '/editor/ckfinder/ckfinder.html?type=Images',
+            filebrowserFlashBrowseUrl : '/editor/ckfinder/ckfinder.html?type=Flash',
+            filebrowserUploadUrl : '/editor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
+            filebrowserImageUploadUrl : '/editor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
+            filebrowserFlashUploadUrl : '/editor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash'
+        });
+      </script>
     </div>
     <div class="input-group mb-3">
       <div class="input-group-prepend">
-          <span class="input-group-text"  id="inputGroup-sizing-default">Address</span>
+          <span class="input-group-text"  id="inputGroup-sizing-default" style="background-color: navy;color: white;">Address</span>
       </div>
       <select class="form-control" name="address">
       <option value="{{$product->address}}">{!!old('title',isset($product) ? $product->address : null)!!}</option>       
@@ -99,38 +142,144 @@
         <option value="Tp.Hà Nội">Tp.Hà Nội
         <option value="TP  HCM">TP HCM                              
       </select>
-  </div>
+    </div>
     <img src="/upload/thumbnail/{{$product->thumbnail}}" class="img-thumbnail" >
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <span class="input-group-text"  id="inputGroup-sizing-default">Image Thumbnail</span>
+            <span class="input-group-text"  id="inputGroup-sizing-default" style="background-color: navy;color: white;">Image Thumbnail</span>
         </div>
-        <input type="file" name="thumbnail" class="form-control">
+        <input type="file" name="thumbnail" class="form-control" >
     </div>
 
     <hr width="100%">
     <label for="exampleFormControlFile1">Image Gallery</label>
-    <div class="form-group" style="display: flex; flex-direction: row;width:100%;height:auto;flex-wrap: wrap;" >
 
+    <div class="form-group" style="display: flex; flex-direction: row;width:100%;height:auto;flex-wrap: wrap;" >
         <br>
         @if($product->galleries)
             @foreach ($product->galleries as $galleries)
             <div id = "{{$galleries->id}}" style="position: relative; padding-right:10px;">
-                <img src="/upload/gallery/{{$galleries->gallery_path}}" id="{{$galleries->id}}" class="img" >
-                <a id='del_gallery' href="javascript:void(0)" style="position: absolute;z-index:998;left:17rem; ">
+                <img src="/upload/gallery/{{$galleries->gallery_path}}" width="100px" height="100px" id="{{$galleries->id}}" class="img-thumbnail" >
+                <a id='del_gallery' href="javascript:void(0)" style="position: absolute;z-index:998;left:0rem; ">
                     <i class="fa fa-window-close" ></i>
                 </a>
             </div>
             @endforeach
         @endif
     </div>
-    <input type="file" name="gallery[]" class="form-control-file" multiple="multiple" id="exampleFormControlFile1">
-    <div class="form-group">
-      <label for="exampleFormControlInput1">Price Product</label>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+          <span class="input-group-text"  id="inputGroup-sizing-default" style="background-color: navy;color: white;">Image Gallery</span>
+      </div>
+      <input type="file" name="gallery[]" class="form-control" multiple="multiple" id="exampleFormControlFile1">
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend" >
+          <span class="input-group-text" style="background-color: navy;color: white;">Price</span>
+      </div>
       <input type="text" class="form-control"  placeholder="Price" name="price" value="{!!old('title',isset($product) ? $product->price : null)!!}">
     </div>
     <button type="submit" class="btn btn-primary">Update Category</button>
   </form>
+</div> 
+</div>
+<div class="row mt-3">
+<div  class="col-lg-10 ml-auto mr-auto pl-1 pr-1 pb-5 pt-2 pro-detail" >
+  <div class="row">
+    <div class="col-6 float-left">
+      <h5 class="ml-2">Variant of Product</h5>
+    </div>
+    <div class="col-6 float-right">
+      <a class="btn btn-outline-info btn-sm float-right" href="{{route('variant.edit',$product->id)}}" type="submit">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+      </a>
+    </div>
+  
+  </div>
+
+  <hr width="100%">
+  <div class="col-lg-12">
+    <table class="table table table-bordered" style="font-size: 10px;">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Stt</th>
+          <th scope="col">Color</th>
+          <th scope="col">Size</th>
+          <th scope="col">Image Color</th>
+          <th scope="col">Price</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Setting</th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach($product->variant as $variant)
+        <form action="{{route('variant.update',$variant->id)}}" method="POST" enctype="multipart/form-data">
+        @csrf
+        @method('PUT')
+        <tr>
+          <th scope="row">{{$variant->id}}</th>
+          <td>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend" >
+                  <span class="color-circle" style='background-color: {{$variant->color}};color: white;'></span>
+              </div>
+              <input class="form-control" type="text" id="color" name="color" value="{{$variant->color}}"/>
+              <script>
+                  $('#color').colorpicker({});
+              </script>
+            </div>
+          </td>
+          <td>
+            <div class="input-group mb-3">
+              <input class="form-control" type="text" id="color" name="size" value="{{$variant->size}}"/>
+            </div>
+          </td>
+          <td>
+            <img src="/upload/variant/{{$variant->img_color}}" width="40px" height="40px">
+            <div class="input-group mb-3"> 
+              
+              <div class="custom-file">
+                <input type="file" name="img_color" class="custom-file-input" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
+                <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+              </div>
+              
+            </div>
+          </td>
+          <td>
+            <div class="">
+              <input type="number" class="form-control" name="price_variant" value="{{$variant->price}}">
+            </div>
+            
+          </td>
+          <td>
+            <div class="col-10">
+              <input type="number" class="form-control" name="quantity" value="{{$variant->quantity}}">
+
+            </div>
+          </td>
+          <td style="width:15%">
+            <div class="row float-right mr-2" style="width:80%">
+              <button type="submit " class="btn btn-success btn-sm" title="add variant" >
+                <i class="fa fa-wrench" aria-hidden="true"></i>
+              </button>
+            </form>
+            <form action="{{route('variant.destroy',$variant->id)}}" method="POST" class="col-6">
+              @method('DELETE')
+              @csrf
+              <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('You want to delete the variant {{$variant->id}}')" title="delete product">
+                <i class="fa fa-trash" aria-hidden="true"></i>
+              </button> 
+            </form>
+            </div>
+              
+          </td>
+        </tr>
+        @endforeach
+      </tbody>
+    </table>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>

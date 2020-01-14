@@ -4,8 +4,11 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Collection;
 use App\Models\Product;
 use App\Models\View;
+use App\Models\Gallery;
+use App\Models\Variant;
 use Auth;
 
 class ProductAppController extends Controller
@@ -54,11 +57,36 @@ class ProductAppController extends Controller
      */
     public function show($id)
     {
-        $product = Product::with('galleries','category')->find($id);
+
+        $variant =  Variant::select('img_color')->where('product_id',$id)->get();
+        $gallery = Gallery::select('gallery_path')->where('product_id',$id)->get();
+
+        $img = [];
+        
+        $key_variant = [];
+        foreach($variant as $key=>$value)
+        {
+            $img[] = $value->img_color ; 
+            $key_variant[] = $key;
+        }
+        foreach($gallery as $value)
+        {
+            $img[] = $value->gallery_path;
+        }
+
+        //dd($key_variant);
+        //dd($img);
+
+        $product = Product::with('galleries','category','variant')->find($id);
         $seeMore = Product::where('category_id',$product->category_id)->get();
-        $view = View::updateOrCreate(['user_id'=>Auth::user()->id,'product_id'=>$id],
-                                     ['view'=>'1']);
-        return view('user.detail',compact('product','seeMore'));
+        if(isset(Auth::user()->id))
+        {
+          $view = View::updateOrCreate(['user_id'=>Auth::user()->id,'product_id'=>$id],
+                                     ['view'=>'1']);  
+        }
+        
+        
+        return view('user.detail',compact('product','seeMore','img'));
     }
 
     /**

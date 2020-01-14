@@ -87,7 +87,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
                     <td>{{$product->name}}</td>
                     <td>{{$product->category_id}}</td>
                     <td>{{$product->description}}</td>
-                    <td>{{$product->content}}</td>
+                    <td>{!!$product->content!!}</td>
                     <td>{{$product->address}}</td>
                     <td>
                     @foreach ($product->galleries as $g)

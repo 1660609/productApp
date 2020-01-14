@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\File;
 use App\Models\Product;
 use App\Models\Variant;
 
+
 class VariantController extends Controller
 {
     /**
@@ -113,6 +114,26 @@ class VariantController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $variant = Variant::find($id);
+        $variant->color = $request->color;
+        $variant->size = $request->size;
+        $variant->quantity = $request->quantity;
+        $variant->price = $request->price_variant;
+        if($request->hasfile('img_color'))
+        {
+           $img_path = public_path('/upload/gallery/'.$variant->img_color);
+           if(File::exists($img_path))
+            {
+                File::delete($img_path);
+            }
+           $img = $request->file('img_color');
+           $filename = time().'.'.$img->getClientOriginalExtension();
+           Image::make($img)->resize(100,100)->save(public_path('upload/gallery/'.$filename));
+           $img_color = $filename ;
+           $variant->img_color = $img_color;
+        }
+        $variant->save();
+        return back()->with('success','Updated variant');
     }
 
     /**
@@ -124,5 +145,19 @@ class VariantController extends Controller
     public function destroy($id)
     {
         //
+        $variant = Variant::find($id);
+        $img_path = public_path('/upload/gallery/'.$variant->img_color);
+        if(File::exists($img_path))
+        {
+            File::delete($img_path);
+        }
+        else
+        {
+            return back()->with('error','File not exists');
+        }
+        $variant->delete();
+
+        return back()->with('success','Deleted variant');
+
     }
 }

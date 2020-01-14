@@ -120,7 +120,7 @@ class ProductManage extends Controller
     public function edit($id)
     {
         //
-        $product = Product::with('galleries')->find($id);
+        $product = Product::with('galleries','variant')->find($id);
         $categories = Category::all();
         return view('admin.update_product',compact('product','categories'));
 
