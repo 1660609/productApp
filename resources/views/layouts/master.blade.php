@@ -10,5 +10,6 @@
 @yield('sidebar')
 @include('layouts.flash')
 @yield('content')
+
 @include('layouts.footer')
 </html>                                		                            

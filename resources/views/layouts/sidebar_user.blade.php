@@ -127,50 +127,38 @@
 	<!-- //top-header -->
 
 	<!-- header-bottom-->
-	<div class="header-bot" id="searchBar">
-		<div class="">
-			<div class="row header-bot_inner_wthreeinfo_header" style="margin-left: 0px;">
+	<div class="" id="searchBar" style="background-color: black;">
+			<div class="row  pl-0 pr-0 pt-2 pb-2">
 				<!-- logo -->
-				<div class="col-md-2 header mt-4 mb-md-0 mb-4 float-left">
-					<a href="/"><h4><span><img src="/upload/icon/logo-app.png" width="40px"></span>Product App</h4></a>
-					
+				<div class="col-2 col-md-2 col-lg-2 header float-left">
+					<div class="dropdown col-md-2">
+						<button class="btn btn-outline-primary" style="width: 46px;" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<i class="fa fa-bars" aria-hidden="true"></i>
+						</button>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+						@foreach($category as $cate)
+						<a href="{{route('categoryList.show',$cate->id)}}"><button class="dropdown-item" type="button">{{$cate->name}}</button></a>
+						@endforeach
+						</div>
+					</div>
 				</div>
 				<!-- //logo -->
 				<!-- header-bot -->
-				<div class="col-md-10 header mt-4 mb-md-0 mb-4 ">
-					
-					<div class="row " style="margin-bottom: 15px;">
-						<!-- search -->
-
-						<div class="dropdown col-md-2">
-							<button class="btn my-2 my-sm-0 h-100 " style="width: 46px;" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<i class="fa fa-bars" aria-hidden="true"></i>
-								
-							</button>
-							<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-							@foreach($category as $cate)
-							<a href="{{route('categoryList.show',$cate->id)}}"><button class="dropdown-item" type="button">{{$cate->name}}</button></a>
-							@endforeach
-							</div>
-						</div>
-						<div class="col-md-5 agileits_search">
-							<form class="form-inline" action="{{route('search.index')}}" method="GET">
-								@csrf 
-								<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="key" value="{{$key ?? ''}}" required>
-								<button class="btn my-1 my-sm-0" type="submit">Search</button>
-							</form>
-						</div>
-						<!-- //search -->
-						<!-- cart details -->
-						<div class="col-md-2 top_nav_right text-center mt-sm-0 mt-2">
-							<div class="wthreecartaits wthreecartaits2 cart cart box_1">
-								<a href="{{route('cart.index')}}" style="height: 50px;margin-top: 8px;" class="notification">
-									<img src="/upload/icon/cart.png" width="40px" height="40px">
-									<span class="badge" style="background-color: red;color: white;">{{$countCart ?? ''}}</span>
-								</a>
-							</div>
-						</div>
-						<!-- //cart details -->
+				<div class="col-8 col-md-8 col-lg-8 header float-left ">
+					<div class="col-12 col-md-10 ">
+						<form class="form-inline" action="{{route('search.index')}}" method="GET">
+							@csrf 
+							<input class="form-control mr-sm-2"  style="width:85%" type="search" placeholder="Search" aria-label="Search" name="key" value="{{$key ?? ''}}" required>
+							<span style="width:5%"><button class="btn btn-outline-primary " type="submit">Search</button></span>
+						</form>
+					</div>
+				</div>
+				<div class="col-2 col-md-2 col-lg-2 float-right ">
+					<div class="">
+						<a href="{{route('cart.index')}}" style="height: 50px;margin-top: 8px;" class="notification">
+							<img src="/upload/icon/cart.png" width="40px" height="40px">
+							<span class="badge" style="background-color: red;color: white;">{{$countCart ?? ''}}</span>
+						</a>
 					</div>
 				</div>
 			</div>
@@ -204,7 +192,6 @@
 	<!-- //page -->
 <script>
 	window.onscroll = function() {myFunction()};
-	
 	var header = document.getElementById("searchBar");
 	var sticky = header.offsetTop;
 	

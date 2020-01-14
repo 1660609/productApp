@@ -79,4 +79,5 @@
 	<script type="text/javascript" src="/js/myscript.js"></script>
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.3.3/css/bootstrap-colorpicker.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.3.3/js/bootstrap-colorpicker.min.js"></script>  
+	<script type="text/javascript" src="/editor/ckeditor/ckeditor.js"></script>
 	<!-- //web fonts -->

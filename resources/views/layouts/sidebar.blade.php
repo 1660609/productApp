@@ -3,7 +3,7 @@
 @endsection
 <div class="row">
     <div class="col-lg-12 mb-1" >
-        <div class="col-lg-2 mt-1 float-left sidenav" class="" style="background-color:darkblue;height: 700px; margin-bottom: 0px;width: 70%;">
+        <div class="col-lg-2 mt-1 float-left sidenav" class="" style="background-color:darkblue;height: 99.5%; margin-bottom: 0px;width: 70%;">
             <div class="col-12 mt-3 mb-1" style="width: 100%;border: white;background-color:none;text-align: center;">
                 <img src="/upload/avatar/default.jpg" class="rounded-circle" style="margin-top:5%;border: white;border-style: solid;" width="100px" height="100px">
                 <h6 style="color: aqua;margin-top: 3%">{{Auth::user()->name}}</h6>
