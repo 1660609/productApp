@@ -19,6 +19,7 @@ class BuyController extends Controller
     public function index()
     {
         //
+
     }
 
     /**
@@ -26,9 +27,10 @@ class BuyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         //
+        dd($request->total);
         return view('user.buy_product');
     }
 

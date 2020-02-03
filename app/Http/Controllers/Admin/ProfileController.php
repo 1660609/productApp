@@ -91,6 +91,7 @@ class ProfileController extends Controller
             'last_name'=>$request->last_name,
             'description'=>$request->descritption,
             'phone'=>$request->phone,
+            'address'=>$request->address,
             'DOB'=>$request->DOB,
             'gioitinh'=>$request->gioitinh,
             'type'=> '1',

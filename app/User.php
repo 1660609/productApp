@@ -48,5 +48,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\View');
     }
+    public function address()
+    {
+        return $this->hasMany('App\Models\Address');
+    }
 }
 

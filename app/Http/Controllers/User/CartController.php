@@ -25,7 +25,6 @@ class CartController extends Controller
         //
         $cart = Cart::with('product')->where('user_id',Auth::user()->id)->get();
         $total = Cart::where('user_id',Auth::user()->id)->sum('price');
-        $total = number_format($total,3);
         
        //$product = Produce::where('category_id',$cart->)
         return view('user.cart',compact('cart','total'));
@@ -102,7 +101,7 @@ class CartController extends Controller
         {
             $cart = Cart::with('product')->where('user_id',$id)->get();
             $total = Product::whereHas('cart')->sum('price');
-            $total = number_format($total,3);
+            $total = number_format($total,3,'.');
         }
         return view('user.cart',compact('cart','total'));
 

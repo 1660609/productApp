@@ -1,4 +1,4 @@
-@extends('eshop.layouts.master')
+@extends('layouts.master')
 @section('content')
                    ooooooooooooooooooooooooooooooooooooooooooo
 @endsection

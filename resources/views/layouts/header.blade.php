@@ -47,7 +47,7 @@
 		position: fixed;
 		top: 0;
 		width: 100%;
-		z-index: 99999;
+		z-index: 9999999999999;
 		background-color: white;
 		}
 		.sidenav{
@@ -55,6 +55,64 @@
 			-webkit-box-shadow: 3px 3px 5px 0px #666;
 			box-shadow: 3px 3px 5px 0px #666;
 		}
+		.preloading {
+    overflow: hidden;
+}
+.preload-container {
+    width: 100%;
+    height: 100%;
+    background: lavender;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 999999999999999999;
+    display: block;
+    padding-right: 17px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.preload-icon {
+    font-size: 66px;
+    color: rgb(173, 17, 17);
+    margin-top: 20%;
+}
+@-webkit-keyframes {
+  from {
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotating {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+.rotating {
+  -webkit-animation: rotating 1.5s linear infinite;
+  -moz-animation: rotating 1.5s linear infinite;
+  -ms-animation: rotating 1.5s linear infinite;
+  -o-animation: rotating 1.5s linear infinite;
+  animation: rotating 1.5s linear infinite;
+}
 </style>
 	<!-- //Meta tag Keywords -->
 
@@ -80,4 +138,5 @@
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.3.3/css/bootstrap-colorpicker.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.3.3/js/bootstrap-colorpicker.min.js"></script>  
 	<script type="text/javascript" src="/editor/ckeditor/ckeditor.js"></script>
+	<script src="https://unpkg.com/imask"></script>
 	<!-- //web fonts -->

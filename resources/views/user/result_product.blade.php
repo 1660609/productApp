@@ -44,14 +44,16 @@
 						  </button>
 						  <a class="navbar-brand" href="#">Filter</a>
 						  <hr width="100%" style="background-color: white" class="">
+						  <form action="{{route('search.index')}}" method="get">
 						  <div class=" navbar-toggleable-xs pl-0 pr-0 w-100" id="navbar-header">
 							<ul class="nav navbar-nav pl-0 pr-0">
 							  <li class="nav-item active w-100 ">
 								<div class="ml-auto mr-auto mt-2 ml-0 mr-0 pl-0 pr-0 w-100" >
 									<h6>Category</h6>
-									<select class="custom-select custom-select-sm w-100 mt-2" >
+									<select class="custom-select custom-select-sm w-100 mt-2" name="srcCate">
+										<option value="{{$srcCate ?? ''}}">{{$srcCate ?? ''}}</option>
 										@foreach($category as $cate)
-										<option><a href="{{route('categoryList.show',$cate->id)}}">{{$cate->name}}</a></option>
+										<option value="{{$cate->id}}">{{$cate->name}}</option>
 										@endforeach
 									</select>
 								</div>
@@ -59,7 +61,8 @@
 							  <li class="nav-item">
 								<div class="ml-auto mr-auto mt-2 ml-0 mr-0 pl-0 pr-0 w-100" >
 									<h6>Address</h6>
-									<select class="custom-select custom-select-sm w-100 mt-2" >
+									<select class="custom-select custom-select-sm w-100 mt-2" name="srcAddress">
+									<option value="{{$srcAddress ?? ''}}">{{$srcAddress ?? ''}}</option>
 										<option value="An Giang">An Giang
 											<option value="Bà Rịa - Vũng Tàu">Bà Rịa - Vũng Tàu
 											<option value="Bắc Giang">Bắc Giang
@@ -132,9 +135,9 @@
 								<div class="ml-auto mr-auto mt-2 ml-0 mr-0 pl-0 pr-0 w-100" >
 									<h6>Price range</h6>
 									<div class="row m-auto">
-										<input class="form-control col-5" type="number">
+										<input class="form-control col-5" type="number" name="srcPriceMin" value="{{$srcPriceMin ?? ''}}">
 										<span>-to-</span>
-										<input class="form-control col-5" type="number">
+										<input class="form-control col-5" type="number" name="srcPriceMax" value="{{$srcPriceMax ?? ''}}">
 									</div>
 									
 								</div>
@@ -147,6 +150,7 @@
 								
 							</div>
 						  </div>
+						</form>
 						</nav> <!-- /navbar -->
 						
 					</div><!-- /container -->
@@ -169,7 +173,7 @@
 										</div>
 										<div class="item-info-product text-center border-top mt-4">
 											<h4 class="pt-1">
-												<a href="single.html">{{$pro->name}}</a>
+												<a>{{$pro->name}}</a>
 											</h4>
 											<div class="info-product-price my-2">
 												<span class="item_price">{{number_format($pro->price,3)}} VNĐ</span>

@@ -49,23 +49,26 @@
 						  </button>
 						  <a class="navbar-brand" href="#">Filter</a>
 						  <hr width="100%" style="background-color: white" class="">
+						  <form action="{{route('search.index')}}" method="get">
 						  <div class=" navbar-toggleable-xs pl-0 pr-0 w-100" id="navbar-header">
 							<ul class="nav navbar-nav pl-0 pr-0">
 							  <li class="nav-item active w-100 ">
 								<div class="ml-auto mr-auto mt-2 ml-0 mr-0 pl-0 pr-0 w-100" >
 									<h6>Category</h6>
-									<select class="custom-select custom-select-sm w-100 mt-2" >
-										@foreach($category as $cate)
-										<option><a href="{{route('categoryList.show',$cate->id)}}">{{$cate->name}}</a></option>
-										@endforeach
+									<select class="custom-select custom-select-sm w-100 mt-2" name="srcCate" >
+									<option value="{{$srcCate ?? ''}}">{{$srcCate ?? ''}}</option>
+									@foreach($category as $cate)
+										<option value="{{$cate->id}}">{{$cate->name}}</option>
+									@endforeach
 									</select>
 								</div>
 							  </li>
 							  <li class="nav-item">
 								<div class="ml-auto mr-auto mt-2 ml-0 mr-0 pl-0 pr-0 w-100" >
 									<h6>Address</h6>
-									<select class="custom-select custom-select-sm w-100 mt-2" >
-										<option value="An Giang">An Giang
+									<select class="custom-select custom-select-sm w-100 mt-2" name="srcAddress" >
+											<option value="{{$srcAddress ?? ''}}">{{$srcAddress ?? ''}}
+											<option value="An Giang">An Giang
 											<option value="Bà Rịa - Vũng Tàu">Bà Rịa - Vũng Tàu
 											<option value="Bắc Giang">Bắc Giang
 											<option value="Bắc Kạn">Bắc Kạn
@@ -137,9 +140,9 @@
 								<div class="ml-auto mr-auto mt-2 ml-0 mr-0 pl-0 pr-0 w-100" >
 									<h6>Price range</h6>
 									<div class="row m-auto">
-										<input class="form-control col-5" type="number">
+										<input class="form-control col-5" type="number" name="srcPriceMin" value="{{$srcPriceMin ?? ''}}">
 										<span>-to-</span>
-										<input class="form-control col-5" type="number">
+										<input class="form-control col-5" type="number" name="srcPriceMax" value="{{$srcPriceMax ?? ''}}">
 									</div>
 									
 								</div>
@@ -151,6 +154,7 @@
 							<div class="mt-3 container-fluid" style="background-color: violet;">
 								
 							</div>
+							</form>
 						  </div>
 						</nav> <!-- /navbar -->
 						
@@ -160,7 +164,7 @@
 					<div class="wrapper">
 						<!-- first section -->
 						<div class="product-sec1 px-sm-4 px-3 py-sm-5  py-3 mb-4">
-							<h3 class="heading-tittle text-center font-italic">New Brand Mobiles</h3>
+							<h3 class="heading-tittle text-center font-italic">New Productsss</h3>
 							<hr width="100%" style="background-color:red">
 							<div class="row mt-2">
 							@foreach ($product as $pro)
@@ -175,7 +179,7 @@
 										</div>
 										<div class="item-info-product text-center border-top mt-4">
 											<h4 class="pt-1">
-												<a href="single.html">{{$pro->name}}</a>
+												<a>{{$pro->name}}</a>
 											</h4>
 											<div class="info-product-price my-2">
 												<span class="item_price">{{number_format($pro->price,3)}}VNĐ</span>
@@ -206,7 +210,7 @@
 										</div>
 										<div class="item-info-product text-center border-top mt-4">
 											<h4 class="pt-1">
-												<a href="single.html">{{$value->name}}</a>
+												<a >{{$value->name}}</a>
 											</h4>
 											<div class="info-product-price my-2">
 												<span class="item_price">{{number_format($value->price,3)}} VNĐ</span>
@@ -249,7 +253,6 @@
 							</a>
 							@endforeach	
 						</div>
-							
 						</div>
 						@endif
         		    </div>

@@ -26,7 +26,7 @@
 							</div>
 	
 							<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-								<a  class="dropdown-item" href="{{route('profile.edit',Auth::user()->id)}}" >
+								<a  class="dropdown-item" href="{{route('profileUser.show',Auth::user()->id)}}" >
 								
 									{{ Auth::user()->name }} <span class="caret"></span>
 								</a>

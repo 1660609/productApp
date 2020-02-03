@@ -53,85 +53,90 @@
 .pagination {
     margin-top: 20px;
 }
+#total{
+    border: #ffffff;
+    text-align: right;
+    margin-left: 10px;
+    width: 95px;
+    background-color: #ffffff;
+}
+.price{
+    border: lightsteelblue;
+    text-align: left;
+    margin-left: 10px;
+    width: 95px;
+    background-color: lightsteelblue;
+}
+.buyProduct{
+    border-color:red ;
+    border-style: solid;
+    border-width: 1px;
+}
 </style>
 @endsection
 @section('content')
-<div class="header" style="margin-left: 200px;">
-    <h1>MY CART</h1>
-    <div class="form-group">
-        
-    </div>
-</div>
-<div class="container mb-4">
-    <div class="row">
-        <div class="col-12">
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Select</th>
-                            <th scope="col"> </th>
-                            <th scope="col">Name Product</th>
-                            <th scope="col">Available</th>
-                            <th scope="col" class="text-center">Quantity</th>
-                            <th scope="col" class="text-right">Price</th>
-                            <th> </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                            @foreach($cart as $cart)
-                            <tr id="$cart->id">
-                             <td> 
-                                 <input type="checkbox" name="vehicle" value="" checked="checked" >
-                            </td>
-                             <td><img src="/upload/thumbnail/{{$cart->product->thumbnail}}" width="70px" height="70px"/> </td>
-                             <td><a href="{{route('productApp.show',$cart->product->id)}}">{{$cart->product->name}}</a>
-                                <p>{{$cart->product->description}}</p>
-                    
-                             </td>
-                             <td>In stock</td>
-                             <td>
-                                <form method="POST" id="numberForm">
-                                    @csrf
-                                    @method('PUT')
-                                    <input type="number" name="number" class="number" product_id="{{$cart->product_id}}" id="{{$cart->id}}" value="{{$cart->number_product}}" style="text-align: center;" min="1" width="100px">
-                                </form>
-                            </td>
-                             <td class="text-right" name="number" id="number30">
-                                 <p id="number{{$cart->id}}">{{number_format($cart->price,3) }} VNĐ</p>
-                            </td>
-                             <td class="text-right">
-                                 <form action="{{route('cart.destroy',$cart->id)}}" method="POST">
-                                    @method('DELETE') 
-                                    @csrf
-                                    <button class="btn btn-sm btn-danger" type="submit">delete</button> 
-                                 </form>
-                             </td>
-                           </tr>
-                           @endforeach
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td><strong> <p id="total">Total: {{$total}} VNĐ</p></strong></td>
-                            <td class="text-right"><strong></strong></td>
-                        </tr>
-                    </tbody>
-                </table>
+<div class="header text-left">
+    <h1 class="pl-4">MY CART</h1 class="pl-4">
+    <hr width="100%" style="background-color: red;" >
+</div> 
+<div class="container-fluid h-100">
+<div class="row mb-5 " >
+    <div class="col-12 col-md-12 col-xl-12 col-lg-12 ">
+       
+        <div class="col-8 col-md-8 col-xl-8 pl-2 pt-2 pb-2 p-3 float-left " style="flex-wrap: nowrap;height: 100%;">
+            @foreach($cart as $cart) 
+            <div class="row p-2 mb-2" style="background-color:lightsteelblue">
+            <div class="col-xl-1 col-lg-1 col-1 float-left mt-auto mb-auto p-3">
+                <input type="checkbox" name="" value="{{$cart->id}}" onclick="checkFunction()" checked="checked" class="btnCheck" >
             </div>
-        </div>
-        <div class="col mb-2">
-            <div class="row">
-                <div class="col-sm-12  col-md-6">
-                    <a href="/" class="btn btn-block btn-light">Continue Shopping</a>
+            <div class="col-xl-5 col-lg-5 col-5  float-left p-2">
+                <div class="col-xl-4 col-lg-4 col-4 p-0 float-left">
+                <img src="/upload/thumbnail/{{$cart->product->thumbnail}}" style="width:100%;height:70px"/> 
                 </div>
-                <form action="{{route('buy.create')}}" method="GET">
-                        <button class="btn btn-block btn-success" type="submit">BUY</button>
+                <div class="col-xl-8 col-lg-8 col-8 float-left">
+                    <span>
+                        <a href="{{route('productApp.show',$cart->product->id)}}">{{$cart->product->name}}</a>
+                        <p>{{$cart->product->description}}</p>
+                    </span>
+                </div>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-2 float-left p-2 text-center">
+                <input id="number{{$cart->id}}" class="price"  value="{{number_format($cart->price,3) }}" style="width:100%" disabled>VNĐ
+                <input id="price{{$cart->id}}"  value="{{number_format($cart->price,3) }}" hidden>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-2 float-left p-2">
+                <form method="POST" id="numberForm">
+                    @csrf
+                    @method('PUT')
+                    <input type="number" name="number" class="number" product_id="{{$cart->product_id}}" id="{{$cart->id}}" value="{{$cart->number_product}}" style="text-align: center;width: 100%;height: auto;" min="1" width="100%">
                 </form>
             </div>
+            <div class="col-xl-2 col-lg-2 col-2 float-left p-2 mb-2 text-right">
+                <form action="{{route('cart.destroy',$cart->id)}}" method="POST">
+                    @method('DELETE') 
+                    @csrf
+                    <button class="btn btn-sm btn-danger" type="submit"><i class="fa fa-ban" aria-hidden="true"></i></button> 
+                 </form>
+            </div>
+            </div>
+            @endforeach
+        </div>
+        
+        <div class="col-4 col-sm-4 col-xl-4 p-2 mt-3 float-right buyProduct"> 
+            <h5>Buy Product</h5>
+            <hr width="100%" style="background-color: red;"  >
+            <form action="{{route('buy.create')}}" method="GET">
+                Address:<input class="form-control" name="address">
+                Full name: <input class="form-control" name="name" value="{{Auth::user()->name}}">
+                Phone: <input class="form-control mb-2" name="phone">
+                Total:<input id="total" value="{{number_format($total,3)}}" disabled >VNĐ 
+                <input name="total" id="totalhidden" value="{{number_format($total,3)}}" hidden>
+                <button  class="btn btn-block btn-success mt-2" type="submit">BUY</button>
+            </form>
         </div>
     </div>
+</div>
+</div>
 </div>
 
 <script type="text/javascript">
@@ -156,13 +161,60 @@ $(document).ready(function(){
             if(data.success)
             {   
                 // alert(data.success.price);
-                $('#number'+data.success.id).html(data.success.price+"VNĐ");
-                $('#total').html('Total:'+' '+data.total+' VNĐ');
+                $('#number'+data.success.id).val(data.success.price);
+                $('#total').val(data.total);
+                $('#totalhidden').val(data.total);
                 // $('#kkk');
             }
         },
     })
     })
 })
+</script>
+<script type="text/javascript">
+    function checkFunction(){
+
+        var checkBox = document.getElementsByClassName('btnCheck');
+        var total = document.getElementById('total');
+        for (var i = 0; i < checkBox.length; i++)
+        {
+            checkBox[i].onchange = function(){
+                if(checkBox[i].checked == false)
+                {
+                    document.getElementById('total').value = '.000' ;
+                }
+                if(this.checked == true)
+                {
+                    var total = document.getElementById('total').value;
+                    var total = total.replace(',','');
+                    var total = parseInt(total);
+
+                    var price = document.getElementById('price'+this.value).value;
+                    var price = price.replace(',','');
+                    var price = parseInt(price);
+                    var result = total + price;
+                    document.getElementById('total').value = result+'.000' ;
+                    document.getElementById('totalhidden').value = result+'.000'; 
+                    document.getElementById(this.value).disabled = false;
+                }
+                else
+                { 
+                    var total = document.getElementById('total').value;
+                   
+                    var total = total.replace(',','');
+                    var total = parseInt(total);
+
+                    var price = document.getElementById('price'+this.value).value;
+                    var price = price.replace(',','');
+                    var price = parseInt(price);
+                    var result = total - price ;
+                    document.getElementById(this.value).disabled = true;
+                    document.getElementById('total').value = result+'.000' ; 
+                    
+                }
+            }
+            
+        }
+    }
 </script>
 @endsection

@@ -33,5 +33,7 @@ Route::group(['prefix'=>'/'],function(){
     Route::resource('categoryList','User\CategoryListController');
     Route::resource('cart','User\CartController');
     Route::resource('buy','User\BuyController');
+    Route::resource('profileUser','User\ProfileControler');
+    Route::resource('address','User\AddressController');
 });
 

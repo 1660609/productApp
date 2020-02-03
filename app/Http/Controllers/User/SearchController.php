@@ -6,19 +6,23 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Variant;
 
 class SearchController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource. 
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
         $key = "";
-        $keyPrice = "";
-        $keyCate = "";
+        $srcPriceMax = "";
+        $srcPriceMin = "";
+        $srcAddress ="";
+        $srcCate = "";
+        //dd($request->srcCate);
         $product = Product::orderBy('id');
         if($request->key)
         {
@@ -26,18 +30,29 @@ class SearchController extends Controller
             $product = Product::where('name','like','%'.$key.'%')
             ->orWhere('description','like','%'.$key.'%');
         }
-        if($request->keyPrice)
+        if($request->srcCate)
         {
-            $keyPrice= $request->keyPrice ;
-            $product->where('price','<=',$keyPrice);
+            $srcCate = $request->srcCate;
+            $product = Product::where('category_id',$srcCate);
         }
-        if($request->keyCate)
+        if($request->srcAddress)
         {
-            $keyCate = $request->keyCate;
-            $product = Product::where('category_id',$keyCate);
+            $srcAddress = $request->srcAddress;
+            $product = Product::where('address', $srcAddress);   
+           
+        }
+        if($request->srcPriceMin)
+        {
+            $srcPriceMin = $request->srcPriceMin;
+            $product = Product::where('price','>=', $srcPriceMin);
+        }
+        if($request->srcPriceMax)
+        {
+            $srcPriceMax = $request->srcPriceMax;
+            $product = Product::where('price','<=',$srcPriceMax);
         }
         $product = $product->get();
-        return view('user.result_product', compact('product','key','keyPrice','keyCate'));
+        return view('user.result_product', compact('product','key','srcPriceMax','srcPriceMin','srcAddress','srcCate'));
 
     }
 
