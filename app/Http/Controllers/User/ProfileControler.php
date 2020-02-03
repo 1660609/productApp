@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Profile;
 
 class ProfileControler extends Controller
 {
@@ -37,7 +38,7 @@ class ProfileControler extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //kkjkjkjkjk
     }
 
     /**
@@ -49,7 +50,7 @@ class ProfileControler extends Controller
     public function show($id)
     {
         //
-        dd(123);
+        $profile = Profile::where('user_id');
         return view('user.profile');
     }
 
