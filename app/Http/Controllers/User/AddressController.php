@@ -4,6 +4,8 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Address;
+use Auth;
 
 class AddressController extends Controller
 {
@@ -37,13 +39,31 @@ class AddressController extends Controller
     public function store(Request $request)
     {
         //
+        //dd(Auth::user()->id);
         if($request->default)
         {
-            
+            Address::where('user_id',Auth::user()->id)->update(['default'=> '0']);
+            $address = Address::create([
+                'user_id'=>Auth::user()->id,
+                'name'=>$request->name,
+                'phone'=>$request->phone,
+                'address'=>$request->address,
+                'default'=> '1'
+            ]);
         }
         else{
-            echo('232456789');
+            $address = Address::create([
+                'user_id'=>Auth::user()->id,
+                'name'=>$request->name,
+                'phone'=>$request->phone,
+                'address'=>$request->address,
+                'default'=> '0'
+            ]);
         }
+ 
+        $address->save();
+        $address = $address->get();
+        return view('user.shipping_address',compact('address'));
     }
 
     /**
@@ -54,8 +74,10 @@ class AddressController extends Controller
      */
     public function show($id)
     {
-        //
-        return view('user.shipping_address');
+        
+        $address = Address::where('user_id',$id)->get();
+        //dd($id);
+        return view('user.shipping_address',compact('address'));
     }
 
     /**
@@ -78,7 +100,29 @@ class AddressController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //dd(Auth::user()->id);
+        
+        $address = Address::find($id);
+        if($request->name)
+        {
+            $address->name = $request->name;
+        }
+        if($request->phone)
+        {
+            $address->phone = $request->phone;
+        }
+        if($request->address)
+        {
+            $address->address = $request->address;
+        }
+        if($request->default)
+        {
+            Address::where('user_id',Auth::user()->id)->update(['default'=> '0']);
+            $address->default = '1';
+        }
+        $address->save();
+        return redirect()->route('address.show',Auth::user()->id);
+
     }
 
     /**
@@ -90,5 +134,9 @@ class AddressController extends Controller
     public function destroy($id)
     {
         //
+        $address = Address::find($id);
+        $address->delete();
+        return redirect()->route('address.show',Auth::user()->id);
+
     }
 }

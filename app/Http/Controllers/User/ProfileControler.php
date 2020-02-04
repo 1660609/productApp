@@ -4,7 +4,11 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 use App\Models\Profile;
+use App\Models\Address;
+use Auth;
+
 
 class ProfileControler extends Controller
 {
@@ -49,9 +53,18 @@ class ProfileControler extends Controller
      */
     public function show($id)
     {
-        //
-        $profile = Profile::where('user_id');
-        return view('user.profile');
+        //dd($check);
+        $check = Profile::where('user_id',Auth::user()->id)->count();
+        $address = Address::where('user_id',Auth::user()->id)->get();
+        if($check == 0)
+        {
+            $profile = Profile::create([
+                'user_id'=> Auth::user()->id,
+                'first_name'=> Auth::user()->name,
+            ]);
+        }
+        $profile = Profile::where('user_id',Auth::user()->id)->first();
+        return view('user.profile',compact('profile','address'));
     }
 
     /**
@@ -75,6 +88,35 @@ class ProfileControler extends Controller
     public function update(Request $request, $id)
     {
         //
+        //dd($request->all());
+        $profile = Profile::find($id);
+        if($request->name)
+        {
+            $profile->first_name = $request->name ; 
+        }
+        if($request->DOB)
+        {
+            $profile->DOB = $request->DOB ; 
+        }
+        if($request->address)
+        {
+            $profile->address = $request->address ; 
+        }
+        if($request->phone)
+        {
+            $profile->phone = $request->phone;
+        }
+
+        if($request->file('avatar'))
+        {
+            $img = $request->file('avatar');
+            $filename = time().'.'.$img->getClientOriginalExtension();
+            Image::make($img)->resize(250,250)->save(public_path('upload/avatar/'.$filename));
+            $avatar = $filename ;
+            $profile->avatar = $avatar;
+        }
+        $profile->save();
+        return back();
     }
 
     /**

@@ -114,9 +114,15 @@
 @section('content')
 <div class="container-fluid profile">
     <div class="row h-100">
-        <form action="" method="GET" enctype="multipart/form-data" class="text-center ml-auto mr-auto pt-3 pb-2 mt-0 w-100 mb-2 headeruser">
+        <form action="{{route('profileUser.update',Auth::user()->id)}}" method="POST" enctype="multipart/form-data" class="text-center ml-auto mr-auto pt-3 pb-2 mt-0 w-100 mb-2 headeruser">
+        @method('PUT')
+        @csrf
             <div class="imguser">
+            @if ($profile->avatar)
+                <img src="/upload/avatar/{{$profile->avatar}}"  width="200px" height="200px" style="border-radius: 50%;border: black;border-style: solid;">
+            @else
                 <img src="/upload/avatar/default.jpg"  width="200px" height="200px" style="border-radius: 50%;border: black;border-style: solid;">
+            @endif
                 <div class="middle">
                     <div class="text">
                         <div class="file">
@@ -145,7 +151,9 @@
             </div>
             <div class="contentinfo text-center">
                 <div class="col-10 col-md-10 col-lg-10 col-xl-10 ml-auto mr-auto" >
-                    <form >
+                    <form action="{{route('profileUser.update',Auth::user()->id)}}" method="POST" >
+                    @method('PUT')
+                    @csrf
                         <div class="float-right w-100 text-right">
                             <span><input type="checkbox" id="change" >Change</span>    
                         </div>
@@ -154,19 +162,19 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1"><i class="fa fa-user" title="Name" ></i></span>
                                 </div>
-                                <input class="form-control" type="text" value="{{Auth::user()->name}}" id="nameuser" name="name" disabled >
+                                <input class="form-control" type="text" id="nameuser" name="name" value="{{$profile->first_name}}" disabled >
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1"><i class="fa fa-birthday-cake" title="Day of birth"></i></span>
                                 </div> 
-                                <input class="form-control" type="date" value="" name="DOB" id="dobuser" disabled> 
+                                <input class="form-control" type="date" name="DOB" id="dobuser" value="{{$profile->DOB}}" disabled> 
                             </div>                      
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1"><i class="fa fa-phone" title="Number phone"></i></span>
                                 </div> 
-                                <input class="form-control" type="tel"  name="phone" id="phone-mask" placeholder="(___) ___ ____" disabled>
+                                <input class="form-control" type="tel"  name="phone" id="phone-mask" placeholder="(___) ___ ____" value="{{$profile->phone}}" disabled>
                                 <script type="text/javascript">
                                  var phoneMask = IMask(
                                     document.getElementById('phone-mask'), {
@@ -178,7 +186,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1"><i class="fa fa-address-book" title="Address"></i></span>
                                 </div> 
-                                <input class="form-control" type="text" id="address"  name="address" disabled>
+                                <input class="form-control" type="text" id="address"  name="address" value="{{$profile->address}}" disabled>
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
@@ -197,73 +205,28 @@
                 <div class="pb-3">
                     <h5><strong> Delivery address</strong></h5>
                 </div>
-                <form action="" method="">
                     <div class="col-12 col-md-12 col-lg-12 col-xl-12 ml-auto mr-auto">
-                        <div class="row">
-                            <div class="col-sm-6 col-6 col-md-4 col-lg-3 col-xl-3">
-                              <div class="card">
-                                <div class="card-body">
-                                <div class="float-right">
-                                   <a><i class="fa fa-times-circle"></i></a>
-                                </div>
-                                   <h5 class="card-title">Your Name </h5>
-                                <div>
-                                    <p style="font-size: x-small;" class="card-text"><strong>Phone:  </strong><span><input value="+84 92 415 8055"></span></p>
-                                </div>
-                                <div style="font-size: 1px ;">
-                                    <p style="font-size: x-small;" class="card-text"><strong>Address:</strong> tổ 7, ấp Tân Điền, xã Lý Nhơn, huyện Cần Giờ,tp Hồ Chí Minh</p>
-                                </div>
-                                </div>
-                              </div>
-                            </div>  
-                            <div class="col-sm-6 col-6 col-md-4 col-lg-3 col-xl-3">
-                                <div class="card">
-                                  <div class="card-body">
-                                  <div class="float-right">
-                                     <a><i class="fa fa-times-circle"></i></a>
-                                  </div>
-                                     <h5 class="card-title">Your Name </h5>
-                                  <div>
-                                      <p style="font-size: x-small;" class="card-text"><strong>Phone:  </strong><span><input value="+84 92 415 8055"></span></p>
-                                  </div>
-                                  <div style="font-size: 1px ;">
-                                      <p style="font-size: x-small;" class="card-text"><strong>Address:</strong> tổ 7, ấp Tân Điền, xã Lý Nhơn, huyện Cần Giờ,tp Hồ Chí Minh</p>
-                                  </div>
-                                  </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-6 col-md-4 col-lg-3 col-xl-3">
-                                <div class="card">
-                                  <div class="card-body">
-                                  <div class="float-right">
-                                     <a><i class="fa fa-times-circle"></i></a>
-                                  </div>
-                                     <h5 class="card-title">Your Name </h5>
-                                  <div>
-                                      <p style="font-size: x-small;" class="card-text"><strong>Phone:  </strong><span><input value="+84 92 415 8055"></span></p>
-                                  </div>
-                                  <div style="font-size: 1px ;">
-                                      <p style="font-size: x-small;" class="card-text"><strong>Address:</strong> tổ 7, ấp Tân Điền, xã Lý Nhơn, huyện Cần Giờ,tp Hồ Chí Minh</p>
-                                  </div>
-                                  </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-6 col-md-4 col-lg-3 col-xl-3">
-                                <div class="card">
-                                  <div class="card-body">
-                                  <div class="float-right">
-                                     <a><i class="fa fa-times-circle"></i></a>
-                                  </div>
-                                     <h5 class="card-title">Your Name </h5>
-                                  <div>
-                                      <p style="font-size: x-small;" class="card-text"><strong>Phone:  </strong><span><input value="+84 92 415 8055"></span></p>
-                                  </div>
-                                  <div style="font-size: 1px ;">
-                                      <p style="font-size: x-small;" class="card-text"><strong>Address:</strong> tổ 7, ấp Tân Điền, xã Lý Nhơn, huyện Cần Giờ,tp Hồ Chí Minh</p>
-                                  </div>
-                                  </div>
-                                </div>
-                            </div>
+                        <div class="row"> 
+                            @foreach($address as $ad) 
+                                <div class="col-sm-6 col-6 col-md-4 col-lg-3 col-xl-3">
+                                    <a href="{{route('address.show',Auth::user()->id)}}">
+                                        <div class="card">
+                                            <div class="card-body">
+                                            <div class="float-right">
+                                            </div>
+                                            <h5 class="card-title">{{$ad->name}}</h5>
+                                            <div>
+                                                <p style="font-size: x-small;" class="card-text"><strong>Phone:  </strong><span><input value="{{$ad->phone}}"></span></p>
+                                            </div>
+                                            <div style="font-size: 1px ;">
+                                                <p style="font-size: x-small;" class="card-text"><strong>Address:</strong> {{$ad->address}}</p>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                
+                                </div>  
+                            @endforeach   
                         </div>    
                     </div>
                 </form>

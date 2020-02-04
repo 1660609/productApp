@@ -155,13 +155,13 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1"><i class="fa fa-user" title="Name" ></i></span>
                             </div>
-                            <input class="form-control" type="text" value="{{Auth::user()->name}}" id="nameuser" name="name">
+                            <input class="form-control" type="text" value="{{Auth::user()->name}}" id="nameuser" name="name" require>
                         </div>              
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1"><i class="fa fa-phone" title="Number phone"></i></span>
                             </div> 
-                            <input class="form-control" type="tel"  name="phone" id="phone-mask" placeholder="(___) ___ ____">
+                            <input class="form-control" type="tel"  name="phone" id="phone-mask" placeholder="(___) ___ ____" require>
                             <script type="text/javascript">
                              var phoneMask = IMask(
                                 document.getElementById('phone-mask'), {
@@ -173,7 +173,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1"><i class="fa fa-address-book" title="Address"></i></span>
                             </div> 
-                            <input class="form-control" type="text" id="address"  name="address">
+                            <input class="form-control" type="text" id="address"  name="address" require>
                         </div>
                         <div class=" w-100 text-left pb-3">
                             <span><input type="checkbox" id="default" name="default" >Default</span>    

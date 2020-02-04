@@ -25,9 +25,10 @@ class CartController extends Controller
         //
         $cart = Cart::with('product')->where('user_id',Auth::user()->id)->get();
         $total = Cart::where('user_id',Auth::user()->id)->sum('price');
+        $quantity = Cart::where('user_id',Auth::user()->id)->sum('number_product');
         
        //$product = Produce::where('category_id',$cart->)
-        return view('user.cart',compact('cart','total'));
+        return view('user.cart',compact('cart','total','quantity'));
 
 
     }
@@ -101,9 +102,12 @@ class CartController extends Controller
         {
             $cart = Cart::with('product')->where('user_id',$id)->get();
             $total = Product::whereHas('cart')->sum('price');
+            $quantity = Cart::where('user_id',Auth::user()->id)->sum('number_product');
+
+           
             $total = number_format($total,3,'.');
         }
-        return view('user.cart',compact('cart','total'));
+        return view('user.cart',compact('cart','total','quantity'));
 
 
     }
@@ -137,10 +141,10 @@ class CartController extends Controller
             $cart['price'] = number_format($cart->price,3) ;
 
             $total = Cart::where('user_id',Auth::user()->id)->sum('price');
+            $quantity = Cart::where('user_id',Auth::user()->id)->sum('number_product');
             $total = number_format($total,3);
 
-            
-        return response()->json(['success'=>$cart,'total'=>$total]);
+        return response()->json(['success'=>$cart,'total'=>$total,'quantity'=>$quantity]);
         
     }
 

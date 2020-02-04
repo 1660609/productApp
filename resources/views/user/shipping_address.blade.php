@@ -167,31 +167,120 @@
                             </tr>
                             </thead>
                             <tbody>
+                               
+                            @foreach($address as $ad)
                             <tr>
-                                <th scope="row">1</th>
-                                <td><a href="">Mark</a></td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
+                                <th scope="row">{{$ad->id}}</th>
+                                <td>{{$ad->name}}</td>
+                                <td>{{$ad->phone}}</td>
+                                <td>{{$ad->address}}</td>
                                 <td>
                                     <div class="text-center">
-                                        <input type="radio" >
+                                    @if($ad->default == 1)
+                                        <input type="radio" checked='true' disabled >
+                                    @else
+                                        <input type="radio" disabled >
                                     </div>
+                                    @endif
                                 </td>
                                 <td>
                                     <div class="row text-center " style="overflow: auto;">
                                         <div style="width: 50%;padding-left: 4px;">
                                             <form action="" method="">
-                                                <button type="submit" class="btn btn-outline-primary" ><i class="fa fa-cog"></i></button>
+                                                <button type="button" class="btn btn-outline-primary"  data-toggle="modal" data-target="#myModal{{$ad->id}}"><i class="fa fa-cog"></i></button>
                                             </form>
                                         </div>
                                         <div style="width: 50%;">
-                                            <form action="" method="">
-                                                <button type="submit" class="btn btn-outline-danger" ><i class="fa fa-trash"></i></i></button>
+                                            <form action="{{route('address.destroy',$ad->id)}}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('You want to delete the address')"><i class="fa fa-trash"></i></i></button>
                                             </form>
                                         </div>
                                     </div>
                                 </td>
                             </tr> 
+                            <div id="myModal{{$ad->id}}" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                              
+                                  <!-- Modal content-->
+                                  <form action="{{route('address.update',$ad->id)}}" method="POST">
+                                    @method('PUT')
+                                    @csrf
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h4 class="modal-title">Edit Address</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                      <div class="contianer">
+                                          <div class="row">
+                                            <div class="col-md-12 mb-3">
+                                                <div class="input-group">
+                                                  <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="inputGroupPrepend">@</span>
+                                                  </div>
+                                                  <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" name="name" value="{{$ad->name}}" placeholder="Full name" required>
+                                                  <div class="invalid-feedback">
+                                                    Please choose a username.
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <div class="col-md-12 mb-3">
+                                                <div class="input-group">
+                                                  <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="inputGroupPrepend">@</span>
+                                                  </div>
+                                                  <input class="form-control" type="tel"  value="{{$ad->phone}}" name="phone" id="phone-mask" placeholder="(___) ___ ____" require>
+                                                  <script type="text/javascript">
+                                                   var phoneMask = IMask(
+                                                      document.getElementById('phone-mask'), {
+                                                          mask: '+{84}(000)000-0000'
+                                                      });
+                                                  </script>
+                                                  <div class="invalid-feedback">
+                                                    Please choose a number phone.
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <div class="col-md-12 mb-3">
+                                                <div class="input-group">
+                                                  <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="inputGroupPrepend">@</span>
+                                                  </div>
+                                                  <input type="text" class="form-control" id="validationCustomUsername" value="{{$ad->address}}" aria-describedby="inputGroupPrepend" name="address" placeholder="Address" required>
+                                                  <div class="invalid-feedback">
+                                                    Please choose a address.
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <div class="col-md-12 mb-3">
+                                                  <label for="default">Default </label>
+                                                @if($ad->default == 1)
+                                                <input type="checkbox" name="default" checked="true">
+                                                @else
+                                                <input type="checkbox" name="default">
+                                                @endif
+                                              </div>
+                                          </div>
+                            
+                                      </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <button type="button" class="btn btn-default float left" data-dismiss="modal">Close</button>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <button type="submit" class="btn btn-success float-right">OK</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  </div>
+                                </form>
+                                </div>
+                              </div>
+                            
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -200,4 +289,9 @@
         </div>
     </div>
 </div>
+
+
+<!-- modal edit -->
+
+
 @endsection

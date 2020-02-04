@@ -60,6 +60,13 @@
     width: 95px;
     background-color: #ffffff;
 }
+#quantity{
+    border: #ffffff;
+    text-align: right;
+    margin-left: 10px;
+    width: 95px;
+    background-color: #ffffff;
+}
 .price{
     border: lightsteelblue;
     text-align: left;
@@ -126,12 +133,16 @@
             <h5>Buy Product</h5>
             <hr width="100%" style="background-color: red;"  >
             <form action="{{route('buy.create')}}" method="GET">
-                Address:<input class="form-control" name="address">
-                Full name: <input class="form-control" name="name" value="{{Auth::user()->name}}">
-                Phone: <input class="form-control mb-2" name="phone">
-                Total:<input id="total" value="{{number_format($total,3)}}" disabled >VNĐ 
-                <input name="total" id="totalhidden" value="{{number_format($total,3)}}" hidden>
-                <button  class="btn btn-block btn-success mt-2" type="submit">BUY</button>
+                <div class="row">
+                    <div class="col-md-12 ">
+                        Quantity:<input style="text-align: center;" id="quantity" value="{{$quantity}}"  disabled >
+                    </div>
+                    <div class="col-md-12">
+                        Total:<input id="total" value="{{number_format($total,3)}}" disabled >VNĐ 
+                        <input name="total" id="totalhidden" value="{{number_format($total,3)}}" hidden>
+                        <button  class="btn btn-block btn-success mt-2" type="submit">BUY</button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
@@ -164,6 +175,7 @@ $(document).ready(function(){
                 $('#number'+data.success.id).val(data.success.price);
                 $('#total').val(data.total);
                 $('#totalhidden').val(data.total);
+                $('#quantity').val(data.quantity);
                 // $('#kkk');
             }
         },
@@ -179,7 +191,7 @@ $(document).ready(function(){
         for (var i = 0; i < checkBox.length; i++)
         {
             checkBox[i].onchange = function(){
-                if(checkBox[i].checked == false)
+                if(this.checked != false)
                 {
                     document.getElementById('total').value = '.000' ;
                 }

@@ -117,15 +117,15 @@
 	<!-- //Meta tag Keywords -->
 
 	<!-- Custom-Files -->
-	<link href="/assets/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="{{secure_asset('/css/bootstrap.css')}}" rel="stylesheet" type="text/css" media="all" />
 	<!-- Bootstrap css -->
-	<link href="/assets/css/style.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="{{secure_asset('/css/style.css')}}" rel="stylesheet" type="text/css" media="all" />
 	<!-- Main css -->
-	<link rel="stylesheet" href="/assets/css/fontawesome-all.css">
+	<link rel="stylesheet" href="{{asset('/css/fontawesome-all.css')}}">
 	<!-- Font-Awesome-Icons-CSS -->
-	<link href="/assets/css/popuo-box.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="{{secure_asset('/css/popuo-box.css')}}" rel="stylesheet" type="text/css" media="all" />
 	<!-- pop-up-box -->
-	<link href="/asset/css/menu.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="{{secure_asset('/css/menu.css')}}" rel="stylesheet" type="text/css" media="all" />
 	<!-- menu style -->
 	<!-- //Custom-Files -->
 
