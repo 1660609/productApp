@@ -35,5 +35,9 @@ Route::group(['prefix'=>'/'],function(){
     Route::resource('buy','User\BuyController');
     Route::resource('profileUser','User\ProfileControler');
     Route::resource('address','User\AddressController');
+    Route::get('buy/addBuy/{id}','User\BuyController@add')->name('buy.add');
+    Route::delete('buy/delBuy/{id}','User\BuyController@del')->name('buy.del');
 });
+
+Route::get('laravel-send-email', 'User\EmailController@sendEMail')->name('send.mail');
 

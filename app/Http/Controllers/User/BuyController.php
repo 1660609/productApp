@@ -4,6 +4,10 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Buy; 
+use App\Models\Cart;
+use App\Models\Address;
+use Auth;
 
 class BuyController extends Controller
 {
@@ -19,7 +23,11 @@ class BuyController extends Controller
     public function index()
     {
         //
+        $buy = Buy::where('user_id',Auth::user()->id)->with('product')->get();
+        $total = Buy::where('user_id',Auth::user()->id)->sum('total_money');
+        $address = Address::where('user_id',Auth::user()->id)->get();
 
+        return view('user.buy_product',compact('buy','total','address'));
     }
 
     /**
@@ -43,6 +51,18 @@ class BuyController extends Controller
     public function store(Request $request)
     {
         //
+       
+        $card = Cart::find($request->id);
+        $buy =  Buy::updateOrCreate(
+            ['product_id'=> $card->product_id,'user_id'=>Auth::user()->id],
+            ['quantity'=> $card->number_product,'total_money'=> $card->price,]
+        );
+        $buy->save();
+        $total = Buy::where('user_id',Auth::user()->id)->sum('total_money');
+        $quantity = Buy::where('user_id',Auth::user()->id)->sum('quantity');
+        $total = number_format($total,3);
+
+    return response()->json(['success'=>$buy,'total'=>$total,'quantity'=>$quantity]);
     }
 
     /**
@@ -54,39 +74,29 @@ class BuyController extends Controller
     public function show($id)
     {
         //
+        
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         //
+    
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //
+        $card = Cart::find($id);
+        $buy = Buy::where('user_id',$card->user_id)->where('product_id',$card->product_id);
+        $buy->delete();
+
+        $total = Buy::where('user_id',Auth::user()->id)->sum('total_money');
+        $quantity = Buy::where('user_id',Auth::user()->id)->sum('quantity');
+        $total = number_format($total,3);
+
+        return response()->json(['success'=>'ok','total'=>$total,'quantity'=>$quantity]);
     }
 }

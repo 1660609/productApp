@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Buy;
 use Auth;
 
 class CartController extends Controller
@@ -20,15 +21,18 @@ class CartController extends Controller
     {
         $this->middleware('auth:web');
     }
-    public function index()
+    public function index(Request $request)
     {
         //
         $cart = Cart::with('product')->where('user_id',Auth::user()->id)->get();
         $total = Cart::where('user_id',Auth::user()->id)->sum('price');
-        $quantity = Cart::where('user_id',Auth::user()->id)->sum('number_product');
-        
+        $quantity = Buy::where('user_id',Auth::user()->id)->sum('quantity');
        //$product = Produce::where('category_id',$cart->)
-        return view('user.cart',compact('cart','total','quantity'));
+       $buy = Buy::where('user_id',Auth::user()->id)->get();
+
+
+
+        return view('user.cart',compact('cart','total','quantity','buy'));
 
 
     }
@@ -140,8 +144,10 @@ class CartController extends Controller
             $cart->update(['price'=>$total,'number_product'=>$request->number]);
             $cart['price'] = number_format($cart->price,3) ;
 
-            $total = Cart::where('user_id',Auth::user()->id)->sum('price');
-            $quantity = Cart::where('user_id',Auth::user()->id)->sum('number_product');
+            $buy = Buy::where('user_id',Auth::user()->id)->where('product_id',$request->product_id)->update(['quantity'=>$cart->number_product,'total_money'=>$total]);
+
+            $total = Buy::where('user_id',Auth::user()->id)->sum('total_money');
+            $quantity = Buy::where('user_id',Auth::user()->id)->sum('quantity');
             $total = number_format($total,3);
 
         return response()->json(['success'=>$cart,'total'=>$total,'quantity'=>$quantity]);

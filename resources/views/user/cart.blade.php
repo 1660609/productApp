@@ -94,7 +94,7 @@
             @foreach($cart as $cart) 
             <div class="row p-2 mb-2" style="background-color:lightsteelblue">
             <div class="col-xl-1 col-lg-1 col-1 float-left mt-auto mb-auto p-3">
-                <input type="checkbox" name="" value="{{$cart->id}}" onclick="checkFunction()" checked="checked" class="btnCheck" >
+                <input type="checkbox" name="check" value="{{$cart->id}}"  id="btnCheck" >
             </div>
             <div class="col-xl-5 col-lg-5 col-5  float-left p-2">
                 <div class="col-xl-4 col-lg-4 col-4 p-0 float-left">
@@ -115,7 +115,7 @@
                 <form method="POST" id="numberForm">
                     @csrf
                     @method('PUT')
-                    <input type="number" name="number" class="number" product_id="{{$cart->product_id}}" id="{{$cart->id}}" value="{{$cart->number_product}}" style="text-align: center;width: 100%;height: auto;" min="1" width="100%">
+                    <input type="number" name="number" class="number" product_id="{{$cart->product_id}}" id="{{$cart->id}}" value="{{$cart->number_product}}" style="text-align: center;width: 100%;height: auto;" min="1" width="100%" disabled>
                 </form>
             </div>
             <div class="col-xl-2 col-lg-2 col-2 float-left p-2 mb-2 text-right">
@@ -132,14 +132,14 @@
         <div class="col-4 col-sm-4 col-xl-4 p-2 mt-3 float-right buyProduct"> 
             <h5>Buy Product</h5>
             <hr width="100%" style="background-color: red;"  >
-            <form action="{{route('buy.create')}}" method="GET">
+            <form action="{{route('buy.index')}}" method="GET">
                 <div class="row">
                     <div class="col-md-12 ">
-                        Quantity:<input style="text-align: center;" id="quantity" value="{{$quantity}}"  disabled >
+                        Quantity:<input style="text-align: center;" id="quantity" value=""  disabled >
                     </div>
                     <div class="col-md-12">
-                        Total:<input id="total" value="{{number_format($total,3)}}" disabled >VNĐ 
-                        <input name="total" id="totalhidden" value="{{number_format($total,3)}}" hidden>
+                        Total:<input id="total" value="" disabled >VNĐ 
+                        <input name="total" id="totalhidden" value="" hidden>
                         <button  class="btn btn-block btn-success mt-2" type="submit">BUY</button>
                     </div>
                 </div>
@@ -149,6 +149,59 @@
 </div>
 </div>
 </div>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('input#btnCheck').on('change',function(){
+        var id =  $(this).parent().find("input[name='check']").val();
+        
+        // alert (id);
+        if(this.checked ==true)
+        {
+            $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            });
+            $.ajax({
+                url: "/buy",
+                type: "POST",
+                data: {id:id},
+                success: function(data){
+                    if(data.success)
+                    {
+                        $('#'+id).prop("disabled", false);
+                        $('#total').val(data.total);
+                        $('#totalhidden').val(data.total);
+                        $('#quantity').val(data.quantity);
+                    }
+                }
+            })
+        }
+        else
+        {
+            $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            });
+            $.ajax({
+                url: "/buy/"+id,
+                type: "DELETE",
+                data: {id:id},
+                success: function(data){
+                    if(data.success)
+                    {
+                        $('#'+id).prop("disabled", true);
+                        $('#total').val(data.total);
+                        $('#totalhidden').val(data.total);
+                        $('#quantity').val(data.quantity);
+                    }
+                }
+            })
+        }
+    })
+})
+</script>
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -182,8 +235,8 @@ $(document).ready(function(){
     })
     })
 })
-</script>
-<script type="text/javascript">
+</script> 
+<!-- <script type="text/javascript">
     function checkFunction(){
 
         var checkBox = document.getElementsByClassName('btnCheck');
@@ -228,5 +281,5 @@ $(document).ready(function(){
             
         }
     }
-</script>
+</script> -->
 @endsection
