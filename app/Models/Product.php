@@ -26,6 +26,14 @@ class Product extends Model
     {
         return $this->hasMany('App\Models\Cart','product_id');
     }
+    public function buy()
+    {
+        return $this->hasMany('App\Models\Buy','product_id');
+    }
+    public function payment()
+    {
+        return $this->hasMany('App\Models\Payment','product_id');
+    }
     public function view()
     {
         return $this->hasMany('App\Models\View','product_id');

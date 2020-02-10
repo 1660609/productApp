@@ -243,20 +243,41 @@
                               <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Name Product</th>
+                                <th scope="col">Variant</th>
                                 <th scope="col">Address</th>
+                                <th scope="col">Phone</th>
+                                <th scopr="col">Receiver</th>
                                 <th scope="col">Quantity</th>
                                 <th scope="col">Total Price</th>
+                                <th scope="col">Paid</th>
                               </tr>
                             </thead>
                             <tbody>
+                            @foreach ($payment as $pay)
                                <tr>
-                                <th scope="row">1</th>
-                                <td><a href="">Mark</a></td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td>12223</td>
+                                <th scope="row">{{$pay->id}}</th>
+                                <td><a href="{{route('productApp.show',$pay->product_id)}}">{{$pay->product->name}}</a></td>
+                                <td>
+                                @if($pay->variant_id !=0)
+                                <p><span style="border-radius: 50%;display: inline-block;height: 20px; width: 20px;background-color: {{$pay->variants->color}};"></span></p>
+                                <p><strong>Size: </strong>{{$pay->variants->size}}</p>
+                                @endif
+                                </td>
+                                <td>{{$pay->address}}</td>
+                                <td>{{$pay->phone_number}}</td>
+                                <td>{{$pay->name}}</td>
+                                <td>{{$pay->quantity}}</td>
+                                <td>{{$pay->total_money}}</td>
+                                <td>
+                                    @if($pay->paid === '0')
+                                    <input type="checkbox" disabled>
+                                    @elseif ($pay->paid > 0)
+                                    <input type="checkbox" checked="true" disabled>
+                                    @endif
+
+                                </td>
                               </tr> 
-                          
+                            @endforeach
                             </tbody>
                         </table>
                     </div>

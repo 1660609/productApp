@@ -35,6 +35,7 @@ Route::group(['prefix'=>'/'],function(){
     Route::resource('buy','User\BuyController');
     Route::resource('profileUser','User\ProfileControler');
     Route::resource('address','User\AddressController');
+    Route::resource('variantCard','User\CartVariantController');
     Route::get('buy/addBuy/{id}','User\BuyController@add')->name('buy.add');
     Route::delete('buy/delBuy/{id}','User\BuyController@del')->name('buy.del');
 });

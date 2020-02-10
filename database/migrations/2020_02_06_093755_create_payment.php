@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBuy extends Migration
+class CreatePayment extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateBuy extends Migration
      */
     public function up()
     {
-        Schema::create('buy', function (Blueprint $table) {
+        Schema::create('payment', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('product_id')->unsigned()->nullable();
             $table->foreign('product_id')->references('id')->on('product');
@@ -25,6 +25,7 @@ class CreateBuy extends Migration
             $table->string('name')->nullable();
             $table->integer('quantity')->nullable();
             $table->float('total_money')->nullable();
+            $table->string('paid')->nullable();
             $table->timestamps();
         });
     }
@@ -36,6 +37,6 @@ class CreateBuy extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('buy');
+        Schema::dropIfExists('payment');
     }
 }

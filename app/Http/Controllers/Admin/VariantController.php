@@ -64,7 +64,7 @@ class VariantController extends Controller
        {
            $img = $request->file('img_color');
            $filename = time().'.'.$img->getClientOriginalExtension();
-           Image::make($img)->resize(100,100)->save(public_path('upload/variant/'.$filename));
+           Image::make($img)->resize(100,100)->save(public_path('upload/gallery/'.$filename));
            $img_color = $filename ;
            $variant->img_color = $img_color;
        }

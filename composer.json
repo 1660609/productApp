@@ -13,6 +13,7 @@
         "ext-bcmath": "*",
         "ext-gd": "*",
         "bumbummen99/shoppingcart": "^2.8",
+        "eduardokum/laravel-mail-auto-embed": "^1.0",
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "^6.5",
         "intervention/image": "^2.5",

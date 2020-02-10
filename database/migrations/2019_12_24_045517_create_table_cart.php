@@ -12,8 +12,10 @@ class CreateTableCart extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('product_id')->unsigned()->nullable();
             $table->foreign('product_id')->references('id')->on('product');
+            
             $table->bigInteger('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->integer('variant')->nullable();
             $table->integer('number_product')->nullable();
             $table->integer('price')->nullable();
             $table->timestamps();

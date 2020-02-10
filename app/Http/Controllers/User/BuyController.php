@@ -22,8 +22,9 @@ class BuyController extends Controller
     }
     public function index()
     {
-        //
-        $buy = Buy::where('user_id',Auth::user()->id)->with('product')->get();
+        // dd($buy);
+        $buy = Buy::with('product','variants')->where('user_id',Auth::user()->id)->get();
+       
         $total = Buy::where('user_id',Auth::user()->id)->sum('total_money');
         $address = Address::where('user_id',Auth::user()->id)->get();
 
@@ -54,7 +55,7 @@ class BuyController extends Controller
        
         $card = Cart::find($request->id);
         $buy =  Buy::updateOrCreate(
-            ['product_id'=> $card->product_id,'user_id'=>Auth::user()->id],
+            ['product_id'=> $card->product_id,'user_id'=>Auth::user()->id,'variant_id'=>$request->variant_id],
             ['quantity'=> $card->number_product,'total_money'=> $card->price,]
         );
         $buy->save();
@@ -62,7 +63,7 @@ class BuyController extends Controller
         $quantity = Buy::where('user_id',Auth::user()->id)->sum('quantity');
         $total = number_format($total,3);
 
-    return response()->json(['success'=>$buy,'total'=>$total,'quantity'=>$quantity]);
+        return response()->json(['success'=>$buy,'total'=>$total,'quantity'=>$quantity]);
     }
 
     /**

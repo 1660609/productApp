@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Buy extends Model
+class Payment extends Model
 {
     //
-    protected $table = 'buy';
+    protected $table = 'payment';
     protected $fillable = [
-        'id', 'product_id','user_id','variant_id','address','phone_number','name','quantity','total_money',
+        'id', 'product_id','user_id','variant_id','address','phone_number','name','quantity','total_money','paid'
     ];
     public function user()
     {

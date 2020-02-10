@@ -9,7 +9,7 @@ class Cart extends Model
     //
     protected $table = 'table_cart';
     protected $fillable = [
-        'id', 'product_id','user_id','number_product','price',
+        'id', 'product_id','user_id','variant','number_product','price',
     ];
     public function user()
     {
@@ -19,6 +19,10 @@ class Cart extends Model
     {
         return $this->belongsTo('App\Models\Product');
         
+    }
+    public function variants()
+    {
+        return $this->belongsTo('App\Models\Variant','variant');
     }
     
 }

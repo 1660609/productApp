@@ -79,6 +79,12 @@
     border-style: solid;
     border-width: 1px;
 }
+.dot {
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  display: inline-block;
+}
 </style>
 @endsection
 @section('content')
@@ -94,16 +100,22 @@
             @foreach($cart as $cart) 
             <div class="row p-2 mb-2" style="background-color:lightsteelblue">
             <div class="col-xl-1 col-lg-1 col-1 float-left mt-auto mb-auto p-3">
-                <input type="checkbox" name="check" value="{{$cart->id}}"  id="btnCheck" >
+                <input type="checkbox" name="check" value="{{$cart->id}}" variant_id="{{$cart->variant}}" id="btnCheck" >
             </div>
             <div class="col-xl-5 col-lg-5 col-5  float-left p-2">
                 <div class="col-xl-4 col-lg-4 col-4 p-0 float-left">
-                <img src="/upload/thumbnail/{{$cart->product->thumbnail}}" style="width:100%;height:70px"/> 
+                <img src="/upload/thumbnail/{{$cart->product->thumbnail}}" style="width:100%;height:120px"/> 
                 </div>
                 <div class="col-xl-8 col-lg-8 col-8 float-left">
-                    <span>
+                    <span> 
                         <a href="{{route('productApp.show',$cart->product->id)}}">{{$cart->product->name}}</a>
-                        <p>{{$cart->product->description}}</p>
+                        <p>{{$cart->product->description}}</p>  
+                        @if(isset($cart->variants->id))  
+                            <a id="variant" value="">
+                            <label>Color: </label>
+                            <span class="dot" style="background-color: {{$cart->variants->color}};" ></span></a>
+                            <p>Size: {{$cart->variants->size}}</p>
+                        @endif
                     </span>
                 </div>
             </div>
@@ -132,15 +144,15 @@
         <div class="col-4 col-sm-4 col-xl-4 p-2 mt-3 float-right buyProduct"> 
             <h5>Buy Product</h5>
             <hr width="100%" style="background-color: red;"  >
-            <form action="{{route('buy.index')}}" method="GET">
+            <form id="buyForm" name="buyForm" action="{{route('buy.index')}}" method="GET" onsubmit="validateForm()">
                 <div class="row">
                     <div class="col-md-12 ">
-                        Quantity:<input style="text-align: center;" id="quantity" value=""  disabled >
+                        Quantity:<input style="text-align: center;" name="sl" id="quantity" value="" require disabled >
                     </div>
                     <div class="col-md-12">
-                        Total:<input id="total" value="" disabled >VNĐ 
+                        Total:<input id="total" value="" name="tong" disabled require >VNĐ 
                         <input name="total" id="totalhidden" value="" hidden>
-                        <button  class="btn btn-block btn-success mt-2" type="submit">BUY</button>
+                        <button  class="btn btn-block btn-success mt-2" type="submit"  name="bntBuy">BUY</button>
                     </div>
                 </div>
             </form>
@@ -153,8 +165,9 @@
 $(document).ready(function(){
     $('input#btnCheck').on('change',function(){
         var id =  $(this).parent().find("input[name='check']").val();
+        var variant_id = $(this).parent().find("input[name='check']").attr('variant_id');
         
-        // alert (id);
+        //alert (variant_id);
         if(this.checked ==true)
         {
             $.ajaxSetup({
@@ -165,7 +178,7 @@ $(document).ready(function(){
             $.ajax({
                 url: "/buy",
                 type: "POST",
-                data: {id:id},
+                data: {id:id,variant_id:variant_id},
                 success: function(data){
                     if(data.success)
                     {
@@ -236,50 +249,16 @@ $(document).ready(function(){
     })
 })
 </script> 
-<!-- <script type="text/javascript">
-    function checkFunction(){
 
-        var checkBox = document.getElementsByClassName('btnCheck');
-        var total = document.getElementById('total');
-        for (var i = 0; i < checkBox.length; i++)
-        {
-            checkBox[i].onchange = function(){
-                if(this.checked != false)
-                {
-                    document.getElementById('total').value = '.000' ;
-                }
-                if(this.checked == true)
-                {
-                    var total = document.getElementById('total').value;
-                    var total = total.replace(',','');
-                    var total = parseInt(total);
-
-                    var price = document.getElementById('price'+this.value).value;
-                    var price = price.replace(',','');
-                    var price = parseInt(price);
-                    var result = total + price;
-                    document.getElementById('total').value = result+'.000' ;
-                    document.getElementById('totalhidden').value = result+'.000'; 
-                    document.getElementById(this.value).disabled = false;
-                }
-                else
-                { 
-                    var total = document.getElementById('total').value;
-                   
-                    var total = total.replace(',','');
-                    var total = parseInt(total);
-
-                    var price = document.getElementById('price'+this.value).value;
-                    var price = price.replace(',','');
-                    var price = parseInt(price);
-                    var result = total - price ;
-                    document.getElementById(this.value).disabled = true;
-                    document.getElementById('total').value = result+'.000' ; 
-                    
-                }
-            }
-            
-        }
+<script type="text/javascript" src="jquery.min.js">
+function validateForm() {
+    var x = document.forms["buyForm"]["sl"].value;
+    if(x == "")
+    {
+        alert("vui lòng chọn sản phẩm để mua");
+        return false;
     }
-</script> -->
+}
+</script>
+
 @endsection

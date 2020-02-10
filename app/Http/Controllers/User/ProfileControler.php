@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use App\Models\Profile;
 use App\Models\Address;
+use App\Models\Payment;
 use Auth;
 
 
@@ -56,6 +57,8 @@ class ProfileControler extends Controller
         //dd($check);
         $check = Profile::where('user_id',Auth::user()->id)->count();
         $address = Address::where('user_id',Auth::user()->id)->get();
+        $payment = Payment::with('product','variants')->where('user_id',Auth::user()->id)->get();
+        //dd($payment);
         if($check == 0)
         {
             $profile = Profile::create([
@@ -64,7 +67,7 @@ class ProfileControler extends Controller
             ]);
         }
         $profile = Profile::where('user_id',Auth::user()->id)->first();
-        return view('user.profile',compact('profile','address'));
+        return view('user.profile',compact('profile','address','payment'));
     }
 
     /**

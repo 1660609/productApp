@@ -111,9 +111,9 @@ div.scrollmenu a {
 			</div>
 			
 			<div class="col-lg-8 col-12 col-md-8 col-xl-8">
-				<h3 class="mb-3">{{$product->name}}</h3>
+				<h3 class="mb-3" name="namePd">{{$product->name}}</h3>
 				<p class="mb-3">
-					<span class="item_price">{{number_format($product->price,3) }} VND</span>
+					<span class="item_price" name="pricePd">{{number_format($product->price,3) }} VND</span>
 					<del class="mx-2 font-weight-light">280.00 VND</del>
 				</p>
 				<div class="single-infoagile">
@@ -127,8 +127,8 @@ div.scrollmenu a {
 						<li class="mb-3">
 							<strong>Color: </strong>
 							@foreach ($product->variant as $key=>$variant)
-							<a data-slide-to="{{$key+1}}"  data-target='#carousel-custom'>
-							 <span class="dot" style="background-color: {{$variant->color}};" ></span></a>
+								<a data-slide-to="{{$key+1}}"  data-target='#carousel-custom' id="variant" value="{{$variant->id}}">
+							 	<span class="dot" style="background-color: {{$variant->color}};" ></span></a>
 							@endforeach
 						</li>
 						<li><strong>Size:</strong>
@@ -144,10 +144,11 @@ div.scrollmenu a {
 						<form action="{{route('cart.store')}}" method="POST">
 							<fieldset>
 								@csrf
-								<label>Quantity:</label><input class="form-control" type="number" value="1" id="example-number-input" style="width:100px;margin-bottom: 5px;">
+								<label>Quantity:</label><input class="form-control" name="number" type="number" value="1" id="example-number-input" style="width:100px;margin-bottom: 5px;">
 								<input type="hidden" value="{{$product->price}}" name="price" >
 								<input type="hidden" value="{{$product->id}}" name="id" >
-
+								<input type="hidden" value="0" name="variant">
+								<input type="hidden" value="0" name="variant_id">
 								<button class="btn btn-round btn-danger" type="submit" >Add to Cart</button>
 							</fieldset>
 						</form>
@@ -225,6 +226,34 @@ div.scrollmenu a {
 	</div>
 </div>
 
+<script text="text/javascript">
+	$(document).ready(function(){
+		$('a#variant').on('click',function(){
+			var id = $(this).attr('value');
+			$.ajaxSetup({
+				headers: {
+					'X-CSRF-TOKEN':  $('meta[name="csrf-token"]').attr('content')
+				}
+			});
+			$.ajax({
+                url: "/variantCard/"+id,
+                type: "GET",
+                data: {id:id},
+                success: function(data){
+                    if(data.success)
+                    {
+						$("span[name='pricePd']").html( data.variant.price+ ".000 VNĐ");
+						$("input[name='price']").val(data.variant.price);
+						$("input[name='variant']").val('1');
+						$("input[name='variant_id']").val(data.variant.id);
+                    }
+                }
+            })
+			// 
+		})
+	})
+
+</script>
 	
         
 @endsection

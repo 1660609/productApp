@@ -14,6 +14,7 @@
         <div class="col-md-10 col-lg-10 col-xl-10 ml-auto mr-auto ">
             <div class="col-md-8 col-lg-8 col-xl-8 mt-5 mb-5  float-left">
                 @foreach($buy as $b)
+                
                 <div class="card mb-3" style="max-width: 540px;">
                     <div class="row no-gutters">
                       <div class="col-md-4">
@@ -23,7 +24,11 @@
                         <div class="card-body">
                           <h5 class="card-title">{{$b->product->name}} <span class="float-right"><button class="btn btn-outline-info btn-sm">x{{$b->quantity}}</button></span></h5>
                           <p class="card-text">{{$b->product->description}}</p>
-                          <p class="card-text"><small class="text-muted">{{number_format($b->total_money,3)}} VNĐ</small></p>
+                          <p class="card-text"><strong>Price: </strong>{{number_format($b->total_money,3)}} VNĐ</p>
+                          @if($b->variant_id > 0)
+                          <p class="card-text"><strong>Color:  </strong><span style="border-radius: 50%; background-color:{{$b->variants->color}};height: 20px;width: 20px;display:inline-block;"></span></p>
+                          <p class="card-text"><strong>Size:</strong> {{$b->variants->size}}</p>
+                          @endif
                         </div>
                       </div>
                     </div>
@@ -35,6 +40,8 @@
                 <div class="mb-5">
                     <button class="btn btn-outline-info float-right" data-toggle="modal" data-target="#myModal"> Chọn địa chỉ khác</button>
                 </div>
+                <form action="{{route('send.mail')}}" method="GET">
+                   
                 <div class="input-group mb-3 mt-3">
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="basic-addon1">Name</span>
@@ -62,12 +69,14 @@
                 <hr width="100%" style="background-color:black ;">
                 <div class="float-right mb-3">
                     Total: {{number_format($total,3)}} VNĐ
+                    <input type="hidden" name="total" value="{{number_format($total,3)}} VNĐ">
                 </div>
                 <div class="mt-5">
-                  <form action="{{route('send.mail')}}" method="GET">
+                  
                     <button class="btn btn-outline-danger btn-lg btn-block">Thanh Toán</button>
-                  </form>
+                  
                 </div>
+              </form>
             </div>
             <!--  modal list address -->
             <div id="myModal" class="modal fade" role="dialog">
